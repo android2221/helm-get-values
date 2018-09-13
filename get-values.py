@@ -1,10 +1,12 @@
 import os
 import shutil
-from subprocess import call
+import click
+import subprocess
 
-tempdir = "./charts"
 
-print("hello from python!")
+tempdir = os.environ['HELM_PLUGIN_DIR'] + "/charts"
+
+print("hello from python!" + tempdir)
 
 def deleteFolder(directory):
   try:
@@ -20,8 +22,18 @@ def createFolder(directory):
   except OSError:
       print ('Error creating directory ' +  directory)
 
+# Fetch helm chart to temp dir
+@click.command()
+@click.argument('chartname')
+def chart(chartname):
+  subprocess.call(["ls"]) ## PASS IN THE CHARTNAME DUMMY
+
 # Create temp dir
 createFolder(tempdir)
 
 # Cleanup temp dir
-deleteFolder(tempdir)
+# deleteFolder(tempdir)
+
+# Click stuff
+if __name__ == '__main__':
+    chart()
