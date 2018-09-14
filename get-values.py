@@ -26,7 +26,7 @@ def createFolder(directory):
 @click.command()
 @click.argument('chartname')
 def chart(chartname):
-  subprocess.call(["ls"]) ## PASS IN THE CHARTNAME DUMMY
+  subprocess.call(["helm", "fetch", "-d", tempdir, chartname]) 
 
 # Create temp dir
 createFolder(tempdir)
@@ -36,4 +36,7 @@ createFolder(tempdir)
 
 # Click stuff
 if __name__ == '__main__':
-    chart()
+  chart()
+
+
+# TODO: Correct usage help text
