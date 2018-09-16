@@ -29,6 +29,7 @@ def createFolder(directory):
 @click.argument('chartname')
 def chart(chartname):
   # Create temp dir and extract values.yaml
+  deleteFolder(tempdir)
   createFolder(tempdir)
   subprocess.call(["helm", "fetch", "-d", tempdir, chartname])
   for file in os.listdir(tempdir):
@@ -44,10 +45,13 @@ def chart(chartname):
       click.echo("Could not locate values.yaml in downloaded chart, exiting!")
       exit
     # append values to current values.yaml
+    if not os.path.exists("values.yaml"):
+      click.echo("Could not locate values.yaml in current directory, exiting!")
+      exit
     currentvaluesfile = open("values.yaml", "a")
     chartname = os.listdir(extractpath)[0]
     newvaluesfile = open(extractpath + "/" + chartname + "/values.yaml")
-    currentvaluesfile.write("\n" + newvaluesfile.read())
+    currentvaluesfile.write("\n" + chartname + ":" + "\n" + "  " + newvaluesfile.read().replace("\n", "\n  "))
   
   deleteFolder(tempdir)
 
