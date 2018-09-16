@@ -7,8 +7,6 @@ import tarfile
 tempdir = os.environ['HELM_PLUGIN_DIR'] + "/charts"
 extractpath = tempdir + '/extract'
 
-print("hello from python!" + tempdir)
-
 def deleteFolder(directory):
   try:
     if os.path.exists(directory):
