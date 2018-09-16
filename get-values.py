@@ -5,6 +5,7 @@ import subprocess
 import tarfile
 
 tempdir = os.environ['HELM_PLUGIN_DIR'] + "/charts"
+extractpath = tempdir + '/extract'
 
 print("hello from python!" + tempdir)
 
@@ -23,7 +24,6 @@ def createFolder(directory):
       print ('Error creating directory ' +  directory)
 
 
-
 # Fetch helm chart to temp dir
 @click.command()
 @click.argument('chartname')
@@ -34,13 +34,20 @@ def chart(chartname):
   for file in os.listdir(tempdir):
     tar = tarfile.open(tempdir + "/" + file)
     tarfiles = tar.getmembers()
+    foundvalues = False
     for f in tarfiles:
       if "values.yaml" in f.path:
-        tar.extract(f.path, path=tempdir + '/extract')
+        foundvalues = True
+        tar.extract(f.path, path=extractpath)
         break
-      #click.echo("Could not locate values.yaml in downloaded chart, exiting!")
-      #exit
-    # appen values to current values.yaml
+    if not foundvalues:
+      click.echo("Could not locate values.yaml in downloaded chart, exiting!")
+      exit
+    # append values to current values.yaml
+    currentvaluesfile = open("values.yaml", "a")
+    chartname = os.listdir(extractpath)[0]
+    newvaluesfile = open(extractpath + "/" + chartname + "/values.yaml")
+    currentvaluesfile.write("\n" + newvaluesfile.read())
   
   deleteFolder(tempdir)
 
