@@ -1,3 +1,6 @@
+import os
+import shutil
+
 def deleteFolder(directory):
   try:
     if os.path.exists(directory):
