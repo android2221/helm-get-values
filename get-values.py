@@ -36,7 +36,14 @@ def chart(chartname):
     downloadedtar.extract(valuesfilepath, path=extractpath)
   else:
     click.echo("Could not locate values.yaml in downloaded chart, exiting!")
-    exit
+    valuestools.deleteFolder(tempdir)
+    exit()
+
+  # Check for values in current dir
+  if not os.path.isfile("values.yaml"):
+    click.echo("No values.yaml file found, exiting!")
+    valuestools.deleteFolder(tempdir)
+    exit()
 
   # Open downloaded values and append with indent to values file in current directory
   currentvaluesfile = open("values.yaml", "a")
@@ -50,6 +57,3 @@ def chart(chartname):
 
 if __name__ == '__main__':
   chart()
-
-
-# TODO: Correct usage help text
