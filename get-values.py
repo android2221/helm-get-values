@@ -3,32 +3,19 @@ import shutil
 import click
 import subprocess
 import tarfile
+from valuestools import valuestools
 
 tempdir = os.environ['HELM_PLUGIN_DIR'] + "/charts"
 extractpath = tempdir + '/extract'
-
-def deleteFolder(directory):
-  try:
-    if os.path.exists(directory):
-      shutil.rmtree(directory)
-  except:
-    print ('Could not delete the temp directory' + directory)
-
-def createFolder(directory):
-  try:
-    if not os.path.exists(directory):
-      os.makedirs(directory)
-  except OSError:
-      print ('Error creating directory ' +  directory)
-
 
 # Fetch helm chart to temp dir
 @click.command()
 @click.argument('chartname')
 def chart(chartname):
   # Create temp dir and extract values.yaml
-  deleteFolder(tempdir)
-  createFolder(tempdir)
+  valuestools.deleteFolder(tempdir)
+  valuestools.createFolder(tempdir)
+  click.echo("Getting " + chartname)
   subprocess.call(["helm", "fetch", "-d", tempdir, chartname])
   for file in os.listdir(tempdir):
     tar = tarfile.open(tempdir + "/" + file)
@@ -47,11 +34,13 @@ def chart(chartname):
       click.echo("Could not locate values.yaml in current directory, exiting!")
       exit
     currentvaluesfile = open("values.yaml", "a")
-    chartname = os.listdir(extractpath)[0]
-    newvaluesfile = open(extractpath + "/" + chartname + "/values.yaml")
-    currentvaluesfile.write("\n" + chartname + ":" + "\n" + "  " + newvaluesfile.read().replace("\n", "\n  "))
-  
-  deleteFolder(tempdir)
+    charttitle = os.listdir(extractpath)[0]
+    newvaluesfile = open(extractpath + "/" + charttitle + "/values.yaml")
+    currentvaluesfile.write("\n" + charttitle + ":" + "\n" + "  " + newvaluesfile.read().replace("\n", "\n  "))
+    click.echo("Values file updated with values from the " + charttitle + "chart")
+
+  valuestools.deleteFolder(tempdir)
+
 
 # Click stuff
 if __name__ == '__main__':
