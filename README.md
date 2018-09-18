@@ -3,6 +3,10 @@ A helm plugin to allow for easy application of a charts default values when usin
 
 ## Installing
 
+Requirements
+- python 2.7+
+- helm
+
 ```
-helm plugin install https://github.com/android2221/helm-get-values
+pip install git+https://github.com/android2221/helm-get-values && helm plugin install https://github.com/android2221/helm-get-values
 ```
