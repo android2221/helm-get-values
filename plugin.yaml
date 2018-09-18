@@ -5,4 +5,4 @@ description: |-
   A helm plugin to allow for easy application of a charts default values when using helm dependencies.
 ignoreFlags: false
 useTunnel: true
-command: "python $HELM_PLUGIN_DIR/get-values.py"
+command: "get-values"
