@@ -28,3 +28,4 @@ Example:
 ```
 helm get-values stable/wordpress
 ```
+- Open values.yaml, edit and remove things you don't need to override the dependency's default values
