@@ -6,7 +6,7 @@ Get a dependency's default values.yaml and append it to your current values.yaml
 ## Installing
 
 Requirements
-- python 2.7+
+- python 2.7+, pip
 - helm
 
 ```
