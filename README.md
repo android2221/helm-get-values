@@ -10,7 +10,7 @@ Requirements
 - helm
 
 ```
-pip install git+https://github.com/android2221/helm-get-values && helm plugin install https://github.com/android2221/helm-get-values
+pip install git+https://github.com/android2221/helm-get-values && helm plugin install https://github.com/android2221/helm-get-values 
 ```
 
 
