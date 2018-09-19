@@ -13,19 +13,20 @@ extractpath = tempdir + "extract/"
 @click.command()
 @click.argument('chartname')
 def chart(chartname):
-  charthasvaluesfile = False
   # Create temp dir 
   valuestools.deleteFolder(tempdir)
   valuestools.createFolder(tempdir)
 
   # Get chart
   click.echo("Getting values from " + chartname)
+  
   subprocess.call(["helm", "fetch", "-d", tempdir, chartname])
   downloadedpath = tempdir + os.listdir(tempdir)[0]
   downloadedtar = tarfile.open(downloadedpath)
   tarfiles = downloadedtar.getmembers()
 
   # Verify chart has a values file
+  charthasvaluesfile = False
   valuesfilepath = ""
   for f in tarfiles:
     if "values.yaml" in f.path:
