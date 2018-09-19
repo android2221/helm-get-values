@@ -4,7 +4,7 @@ import os
 import click
 import subprocess
 import tarfile
-from valuestools.valuestools import *
+from valuestools import valuestools
 
 tempdir = os.environ['HELM_PLUGIN_DIR'] + "/charts/"
 extractpath = tempdir + "extract/"
