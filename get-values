@@ -13,6 +13,12 @@ extractpath = tempdir + "extract/"
 @click.command()
 @click.argument('chartname')
 def chart(chartname):
+
+  # Check for values in current dir
+  if not os.path.isfile("values.yaml"):
+    click.echo("No values.yaml file found in current directory, exiting!")
+    exit()
+
   # Create temp dir 
   valuestools.deleteFolder(tempdir)
   valuestools.createFolder(tempdir)
@@ -25,26 +31,13 @@ def chart(chartname):
   downloadedtar = tarfile.open(downloadedpath)
   tarfiles = downloadedtar.getmembers()
 
-  # Verify chart has a values file
-  charthasvaluesfile = False
-  valuesfilepath = ""
-  for f in tarfiles:
-    if "values.yaml" in f.path:
-      charthasvaluesfile = True
-      valuesfilepath = f.path
-      break
+  valuesfilepath = valuestools.verifyChart(tarfiles)
 
   # Extract if values.yaml exists
-  if charthasvaluesfile:
+  if valuesfilepath:
     downloadedtar.extract(valuesfilepath, path=extractpath)
   else:
     click.echo("Could not locate values.yaml in downloaded chart, exiting!")
-    valuestools.deleteFolder(tempdir)
-    exit()
-
-  # Check for values in current dir
-  if not os.path.isfile("values.yaml"):
-    click.echo("No values.yaml file found, exiting!")
     valuestools.deleteFolder(tempdir)
     exit()
 

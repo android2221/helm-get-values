@@ -14,3 +14,12 @@ def createFolder(directory):
       os.makedirs(directory)
   except OSError:
       print ('Error creating directory ' +  directory)
+
+def verifyChart(files):
+   # Verify chart has a values file
+  valuesfilepath = ""
+  for f in files:
+    if "values.yaml" in f.path:
+      valuesfilepath = f.path
+      break
+  return valuesfilepath
