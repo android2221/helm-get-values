@@ -2,8 +2,6 @@
 
 import os
 import click
-import subprocess
-import tarfile
 from valuestools import valuestools
 
 tempdir = os.environ['HELM_PLUGIN_DIR'] + "/charts/"
@@ -14,22 +12,15 @@ extractpath = tempdir + "extract/"
 @click.argument('chartname')
 def chart(chartname):
 
-  # Check for values in current dir
-  if not os.path.isfile("values.yaml"):
-    click.echo("No values.yaml file found in current directory, exiting!")
+  setupsuccessful = valuestools.setup(tempdir)
+
+  if not setupsuccessful:
+    click.echo("Could not locate values.yaml in current directory, exiting!")
     exit()
 
-  # Create temp dir 
-  valuestools.deleteFolder(tempdir)
-  valuestools.createFolder(tempdir)
-
-  # Get chart
   click.echo("Getting values from " + chartname)
   
-  subprocess.call(["helm", "fetch", "-d", tempdir, chartname])
-  downloadedpath = tempdir + os.listdir(tempdir)[0]
-  downloadedtar = tarfile.open(downloadedpath)
-  tarfiles = downloadedtar.getmembers()
+  tarfiles = valuestools.getchart(tempdir, chartname)
 
   valuesfilepath = valuestools.verifyChart(tarfiles)
 
@@ -42,11 +33,10 @@ def chart(chartname):
     exit()
 
   # Open downloaded values and append with indent to values file in current directory
-  currentvaluesfile = open("values.yaml", "a")
-  charttitle = os.listdir(extractpath)[0]
-  newvaluesfile = open(extractpath + "/" + charttitle + "/values.yaml")
-  currentvaluesfile.write("\n" + charttitle + ":" + "\n" + "  " + newvaluesfile.read().replace("\n", "\n  "))
-  click.echo("Values file updated with values from the " + chartname + " chart")
+  isupdated = valuestools.appendValues(extractpath)
+
+  if isupdated:
+    click.echo("Values file updated with values from the " + chartname + " chart")
 
   # Clean up
   valuestools.deleteFolder(tempdir)

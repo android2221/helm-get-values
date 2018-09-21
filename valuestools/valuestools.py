@@ -1,5 +1,7 @@
 import os
+import tarfile
 import shutil
+import subprocess
 
 def deleteFolder(directory):
   try:
@@ -15,6 +17,20 @@ def createFolder(directory):
   except OSError:
       print ('Error creating directory ' +  directory)
 
+def setup(tempdir):
+    if not os.path.isfile("values.yaml"):
+      return False
+    deleteFolder(tempdir)
+    createFolder(tempdir)
+    return True
+
+def getchart(tempdir, chartname):
+  subprocess.call(["helm", "fetch", "-d", tempdir, chartname])
+  downloadedpath = tempdir + os.listdir(tempdir)[0]
+  downloadedtar = tarfile.open(downloadedpath)
+  tarfiles = downloadedtar.getmembers()
+  return tarfiles
+
 def verifyChart(files):
    # Verify chart has a values file
   valuesfilepath = ""
@@ -23,3 +39,11 @@ def verifyChart(files):
       valuesfilepath = f.path
       break
   return valuesfilepath
+
+def appendValues(extractpath):
+  charttitle = os.listdir(extractpath)[0]
+  with open(extractpath + "/" + charttitle + "/values.yaml") as extractedvalesfile:
+    appenddata = charttitle + ":" + "\n" + "  " + extractedvalesfile.read().replace("\n", "\n  ")
+  with open("values.yaml", "a") as currentvalues:
+    currentvalues.write('\n' + appenddata)
+  return True
