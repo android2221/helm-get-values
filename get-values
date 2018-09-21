@@ -15,7 +15,7 @@ def chart(chartname):
   setupsuccess = valuestools.setup(tempdir)
 
   if not setupsuccess:
-    click.echo("Please add a values.yaml file according to these instructions https://github.com/helm/helm/blob/master/docs/helm/helm_dependency.md")
+    click.echo("Please add a values.yaml file")
     exit()
 
   click.echo("Getting values from " + chartname)
