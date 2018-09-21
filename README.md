@@ -3,6 +3,8 @@ Get a dependency's default values.yaml and append it to your current values.yaml
 - Reduce errors by copying a dependency's default values in the proper yaml file structure
 - Quickly review default configurations, override and keep portions that are needed and delete what is not
 
+![](get-values.gif)
+
 ## Installing
 
 Requirements
