@@ -24,12 +24,17 @@ def setup(tempdir):
     createFolder(tempdir)
     return True
 
-def getchart(tempdir, chartname):
+def getchart(tempdir, extractpath, chartname):
   subprocess.call(["helm", "fetch", "-d", tempdir, chartname])
   downloadedpath = tempdir + os.listdir(tempdir)[0]
   downloadedtar = tarfile.open(downloadedpath)
   tarfiles = downloadedtar.getmembers()
-  return tarfiles
+  valuesfilepath = verifyChart(tarfiles)
+  if valuesfilepath:
+    downloadedtar.extract(valuesfilepath, path=extractpath)
+    return True
+  else:
+    return False
 
 def verifyChart(files):
    # Verify chart has a values file

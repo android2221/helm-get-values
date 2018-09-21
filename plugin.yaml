@@ -1,5 +1,5 @@
 name: "get-values"
-version: "0.1.1"
+version: "0.1.2"
 usage: "helm get-values <chartname>"
 description: |-
   A helm plugin to allow for easy application of a charts default values when using helm dependencies.

@@ -12,30 +12,25 @@ extractpath = tempdir + "extract/"
 @click.argument('chartname')
 def chart(chartname):
 
-  setupsuccessful = valuestools.setup(tempdir)
+  setupsuccess = valuestools.setup(tempdir)
 
-  if not setupsuccessful:
-    click.echo("Could not locate values.yaml in current directory, exiting!")
+  if not setupsuccess:
+    click.echo("Please add a values.yaml file according to these instructions https://github.com/helm/helm/blob/master/docs/helm/helm_dependency.md")
     exit()
 
   click.echo("Getting values from " + chartname)
   
-  tarfiles = valuestools.getchart(tempdir, chartname)
+  getchartsuccess = valuestools.getchart(tempdir, extractpath, chartname)
 
-  valuesfilepath = valuestools.verifyChart(tarfiles)
-
-  # Extract if values.yaml exists
-  if valuesfilepath:
-    downloadedtar.extract(valuesfilepath, path=extractpath)
-  else:
+  if not getchartsuccess:
     click.echo("Could not locate values.yaml in downloaded chart, exiting!")
     valuestools.deleteFolder(tempdir)
     exit()
 
   # Open downloaded values and append with indent to values file in current directory
-  isupdated = valuestools.appendValues(extractpath)
+  updatesuccess = valuestools.appendValues(extractpath)
 
-  if isupdated:
+  if updatesuccess:
     click.echo("Values file updated with values from the " + chartname + " chart")
 
   # Clean up
