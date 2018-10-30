@@ -6,7 +6,6 @@ Get a dependency's default values.yaml and append it to your current values.yaml
 ![](get-values.gif)
 
 ## Installing
-**Only MacOS and Linux are currently supported. Windows support is in the works!**
 
 Requirements
 - python 2.7+, pip
@@ -18,9 +17,14 @@ Requirements
 pip install git+https://github.com/android2221/helm-get-values && helm plugin install https://github.com/android2221/helm-get-values 
 ```
 
+**Windows (Run as administrator)**
+```
+pip install git+https://github.com/android2221/helm-get-values; helm plugin install https://github.com/android2221/helm-get-values 
+```
+
 ## Usage
 - Be sure to have added your dependent charts according to this guide: https://github.com/helm/helm/blob/master/docs/helm/helm_dependency.md
-- Navigate to the directory that contains your outer values.yaml file
+- Navigate to the directory that contains your outer values.yaml file to run these commands
   
 Command:
 
@@ -36,6 +40,12 @@ helm get-values stable/wordpress
 
 ## Uninstalling
 
+**MacOS and Linux**
 ```
-helm plugin remove get-values && pip uninstall helm-get-values -y
+helm plugin remove get-values
+```
+
+**Windows (Run as administrator)**
+```
+helm plugin remove get-values
 ```
