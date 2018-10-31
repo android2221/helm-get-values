@@ -3,10 +3,9 @@
 import os, argparse
 from valuestools import valuestools
 
-parser = argparse.ArgumentParser(description="Get a helm chart's default values when using helm dependencies." )
+parser = argparse.ArgumentParser(description="Get a helm chart's default values when using helm dependencies. \n\n Usage: helm get-values <chartname>", formatter_class=argparse.RawTextHelpFormatter )
 parser.add_argument('chartname', type=str, help='the name of the charts\' values to append to your values file')
-args = parser.parse_args()
-print args
+args = vars(parser.parse_args())
 
 tempdir = os.environ['HELM_PLUGIN_DIR'] + "/charts/"
 extractpath = tempdir + "extract/"
