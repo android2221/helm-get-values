@@ -38,4 +38,4 @@ def chart(chartname):
   valuestools.deleteFolder(tempdir)
 
 if __name__ == '__main__':
-  chart('')
+  chart(args['chartname'])
