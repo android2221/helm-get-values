@@ -14,12 +14,12 @@ Requirements
 
 **MacOS and Linux**
 ```
-pip install git+https://github.com/android2221/helm-get-values && helm plugin install https://github.com/android2221/helm-get-values 
+pip install --user git+https://github.com/android2221/helm-get-values && helm plugin install https://github.com/android2221/helm-get-values 
 ```
 
 **Windows (Run as administrator)**
 ```
-pip install git+https://github.com/android2221/helm-get-values; helm plugin install https://github.com/android2221/helm-get-values 
+pip install --user git+https://github.com/android2221/helm-get-values; helm plugin install https://github.com/android2221/helm-get-values 
 ```
 
 ## Usage
