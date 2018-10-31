@@ -25,7 +25,10 @@ def setup(tempdir):
     return True
 
 def getchart(tempdir, extractpath, chartname):
-  subprocess.call(["helm", "fetch", "-d", tempdir, chartname])
+  try:
+    subprocess.check_call(["helm", "fetch", "-d", tempdir, chartname])
+  except Exception:
+    exit()
   downloadedpath = tempdir + os.listdir(tempdir)[0]
   downloadedtar = tarfile.open(downloadedpath)
   tarfiles = downloadedtar.getmembers()

@@ -1,29 +1,30 @@
 #!/usr/bin/env python
 
-import os
-import click
+import os, argparse
 from valuestools import valuestools
+
+parser = argparse.ArgumentParser(description="Get a helm chart's default values when using helm dependencies. \n\n Usage: helm get-values <chartname>", formatter_class=argparse.RawTextHelpFormatter )
+parser.add_argument('chartname', type=str, help='the name of the charts\' values to append to your values file')
+args = vars(parser.parse_args())
 
 tempdir = os.environ['HELM_PLUGIN_DIR'] + "/charts/"
 extractpath = tempdir + "extract/"
 
 # Fetch helm chart to temp dir
-@click.command()
-@click.argument('chartname')
 def chart(chartname):
 
   setupsuccess = valuestools.setup(tempdir)
 
   if not setupsuccess:
-    click.echo("Please add a values.yaml file")
+    print("Please add a values.yaml file")
     exit()
 
-  click.echo("Getting values from " + chartname)
+  print("Getting values from " + chartname)
   
   getchartsuccess = valuestools.getchart(tempdir, extractpath, chartname)
 
   if not getchartsuccess:
-    click.echo("Could not locate values.yaml in downloaded chart, exiting!")
+    print("Could not locate values.yaml in downloaded chart, exiting!")
     valuestools.deleteFolder(tempdir)
     exit()
 
@@ -31,10 +32,10 @@ def chart(chartname):
   updatesuccess = valuestools.appendValues(extractpath)
 
   if updatesuccess:
-    click.echo("Values file updated with values from the " + chartname + " chart")
+    print("Values file updated with values from the " + chartname + " chart")
 
   # Clean up
   valuestools.deleteFolder(tempdir)
 
 if __name__ == '__main__':
-  chart()
+  chart(args['chartname'])
