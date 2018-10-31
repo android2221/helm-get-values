@@ -1,5 +1,5 @@
 # helm-get-values
-Get a dependency's default values.yaml and append it to your current values.yaml file to save time when working with helm dependencies.
+Get a dependency's default values.yaml and append it to the consuming chart's values.yaml file to save time when working with helm dependencies.
 - Reduce errors by copying a dependency's default values in the proper yaml file structure
 - Quickly review default configurations, override and keep portions that are needed and delete what is not
 
