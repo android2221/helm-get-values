@@ -8,18 +8,13 @@ Get a dependency's default values.yaml and append it to your current values.yaml
 ## Installing
 
 Requirements
-- python 2.7+, pip
+- python 2.7+
 - git
 - helm
 
-**MacOS and Linux**
+**Run in your favorite terminal**
 ```
-pip install --user git+https://github.com/android2221/helm-get-values && helm plugin install https://github.com/android2221/helm-get-values 
-```
-
-**Windows (Run as administrator)**
-```
-pip install --user git+https://github.com/android2221/helm-get-values; helm plugin install https://github.com/android2221/helm-get-values 
+helm plugin install https://github.com/android2221/helm-get-values 
 ```
 
 ## Usage
@@ -40,12 +35,7 @@ helm get-values stable/wordpress
 
 ## Uninstalling
 
-**MacOS and Linux**
-```
-helm plugin remove get-values
-```
-
-**Windows (Run as administrator)**
+**Run in your favorite terminal**
 ```
 helm plugin remove get-values
 ```
