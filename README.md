@@ -12,9 +12,9 @@ Requirements
 - git
 - helm
 
-**Run in your favorite terminal**
+**Run in your favorite terminal (Run as Administrator in Windows)**
 ```
-helm plugin install https://github.com/android2221/helm-get-values 
+helm plugin install http://github.com/android2221/helm-get-values 
 ```
 
 ## Usage
@@ -35,7 +35,7 @@ helm get-values stable/wordpress
 
 ## Uninstalling
 
-**Run in your favorite terminal**
+**Run in your favorite terminal (Run as Administrator in Windows)**
 ```
 helm plugin remove get-values
 ```
