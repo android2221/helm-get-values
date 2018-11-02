@@ -18,7 +18,7 @@ helm plugin install http://github.com/android2221/helm-get-values
 ```
 
 ## Usage
-- Be sure to have added your dependent charts according to this guide: https://github.com/helm/helm/blob/master/docs/helm/helm_dependency.md
+- Be sure to have added your dependent charts according to this guide: https://docs.helm.sh/helm/#helm-dependency
 - Navigate to the directory that contains your outer values.yaml file to run these commands
   
 Command:
